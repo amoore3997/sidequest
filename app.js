@@ -263,17 +263,26 @@ if (!Array.isArray(sidequests)) {
       reportForm.classList.remove("open");
     }
 
-    function focusQuestAndOpen(quest) {
+  function focusQuestAndShowPopup(
+  quest,
+  marker,
+  card
+) {
   activeQuestId = quest.id;
 
-  // Highlight the selected card immediately.
-  renderQuests();
+  // Highlight the selected card without rebuilding the markers.
+  document
+    .querySelectorAll(".quest-card")
+    .forEach(item =>
+      item.classList.remove("active")
+    );
 
-  // Close any existing marker popup and stop an earlier animation.
+  card.classList.add("active");
+
   map.closePopup();
   map.stop();
 
-  // Cancel a previous pending modal opening.
+  // Cancel any previous pending popup.
   if (pendingQuestMoveHandler) {
     map.off(
       "moveend",
@@ -291,25 +300,26 @@ if (!Array.isArray(sidequests)) {
     pendingQuestTimer = null;
   }
 
-  const selectedQuestId = quest.id;
-  let modalOpened = false;
+  let popupOpened = false;
 
-  pendingQuestMoveHandler = () => {
+  const openSelectedPopup = () => {
     if (
-      modalOpened ||
-      activeQuestId !== selectedQuestId
+      popupOpened ||
+      activeQuestId !== quest.id
     ) {
       return;
     }
 
-    modalOpened = true;
+    popupOpened = true;
 
-    map.off(
-      "moveend",
-      pendingQuestMoveHandler
-    );
+    if (pendingQuestMoveHandler) {
+      map.off(
+        "moveend",
+        pendingQuestMoveHandler
+      );
 
-    pendingQuestMoveHandler = null;
+      pendingQuestMoveHandler = null;
+    }
 
     if (pendingQuestTimer) {
       window.clearTimeout(
@@ -319,25 +329,26 @@ if (!Array.isArray(sidequests)) {
       pendingQuestTimer = null;
     }
 
-    // A brief pause makes the transition feel deliberate.
     window.setTimeout(
       () => {
-        openQuest(selectedQuestId);
+        marker.openPopup();
       },
-      140
+      120
     );
   };
+
+  pendingQuestMoveHandler =
+    openSelectedPopup;
 
   map.on(
     "moveend",
     pendingQuestMoveHandler
   );
 
-  // Fallback in case the map is already near the destination
-  // and does not emit a normal movement event.
+  // Fallback if Leaflet does not emit moveend.
   pendingQuestTimer =
     window.setTimeout(
-      pendingQuestMoveHandler,
+      openSelectedPopup,
       1600
     );
 
@@ -437,10 +448,14 @@ if (!Array.isArray(sidequests)) {
           </span>
         `;
 
-       card.addEventListener(
+      card.addEventListener(
   "click",
   () => {
-    focusQuestAndOpen(quest);
+    focusQuestAndShowPopup(
+      quest,
+      marker,
+      card
+    );
   }
 );
 
