@@ -6,7 +6,6 @@ if (!Array.isArray(sidequests)) {
   );
 }
 
- <script>
     const OTTAWA = {
       lat: 45.4215,
       lng: -75.6972
@@ -656,4 +655,3 @@ if (!Array.isArray(sidequests)) {
     window.openQuest = openQuest;
 
     updateRadius();
-  </script>
