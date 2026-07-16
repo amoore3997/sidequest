@@ -8,7 +8,7 @@ if (!Array.isArray(sidequests)) {
 
     const OTTAWA = {
       lat: 45.4215,
-      lng: -75.6972
+      lng: -75.6972,
     };
     
     const map = L.map("map", {
@@ -44,6 +44,9 @@ if (!Array.isArray(sidequests)) {
     let activeQuestId = null;
     let selectedReportType = "";
     let userMarker = null;
+
+    let pendingQuestMoveHandler = null;
+    let pendingQuestTimer = null;
 
     const radiusInput =
       document.getElementById("radiusInput");
@@ -260,6 +263,94 @@ if (!Array.isArray(sidequests)) {
       reportForm.classList.remove("open");
     }
 
+    function focusQuestAndOpen(quest) {
+  activeQuestId = quest.id;
+
+  // Highlight the selected card immediately.
+  renderQuests();
+
+  // Close any existing marker popup and stop an earlier animation.
+  map.closePopup();
+  map.stop();
+
+  // Cancel a previous pending modal opening.
+  if (pendingQuestMoveHandler) {
+    map.off(
+      "moveend",
+      pendingQuestMoveHandler
+    );
+
+    pendingQuestMoveHandler = null;
+  }
+
+  if (pendingQuestTimer) {
+    window.clearTimeout(
+      pendingQuestTimer
+    );
+
+    pendingQuestTimer = null;
+  }
+
+  const selectedQuestId = quest.id;
+  let modalOpened = false;
+
+  pendingQuestMoveHandler = () => {
+    if (
+      modalOpened ||
+      activeQuestId !== selectedQuestId
+    ) {
+      return;
+    }
+
+    modalOpened = true;
+
+    map.off(
+      "moveend",
+      pendingQuestMoveHandler
+    );
+
+    pendingQuestMoveHandler = null;
+
+    if (pendingQuestTimer) {
+      window.clearTimeout(
+        pendingQuestTimer
+      );
+
+      pendingQuestTimer = null;
+    }
+
+    // A brief pause makes the transition feel deliberate.
+    window.setTimeout(
+      () => {
+        openQuest(selectedQuestId);
+      },
+      140
+    );
+  };
+
+  map.on(
+    "moveend",
+    pendingQuestMoveHandler
+  );
+
+  // Fallback in case the map is already near the destination
+  // and does not emit a normal movement event.
+  pendingQuestTimer =
+    window.setTimeout(
+      pendingQuestMoveHandler,
+      1600
+    );
+
+  map.flyTo(
+    [quest.lat, quest.lng],
+    13,
+    {
+      duration: 1.05,
+      easeLinearity: 0.25
+    }
+  );
+}
+
     function renderQuests() {
       const filteredQuests =
         getFilteredQuests();
@@ -346,23 +437,12 @@ if (!Array.isArray(sidequests)) {
           </span>
         `;
 
-        card.addEventListener(
-          "click",
-          () => {
-            activeQuestId = quest.id;
-
-            map.flyTo(
-              [quest.lat, quest.lng],
-              12,
-              {
-                duration: 0.8
-              }
-            );
-
-            marker.openPopup();
-            renderQuests();
-          }
-        );
+       card.addEventListener(
+  "click",
+  () => {
+    focusQuestAndOpen(quest);
+  }
+);
 
         questList.appendChild(card);
       });
