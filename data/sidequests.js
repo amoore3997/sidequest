@@ -2,7 +2,7 @@ window.SIDEQUESTS = [
   {
     id: 1,
     slug: "pink-lake-trail",
-    name: "Pink Lake Trail 35 Entrance",
+    name: "Pink Lake — Trail 35 Entrance",
 
     region: "Gatineau Park",
     category: "trail",
