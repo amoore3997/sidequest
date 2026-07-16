@@ -73,7 +73,7 @@ window.SIDEQUESTS = [
     icon: "🏛️",
 
     lat: 45.538425,
-    lng: -75.868006
+    lng: -75.868006,
 
     coordinateRepresents:
       "Carbide Willson Ruins complex",
