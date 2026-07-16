@@ -576,6 +576,7 @@
     }
 
        .modal {
+      position: relative;
       width: min(820px, calc(100vw - 40px));
       max-height: 88vh;
       overflow-y: auto;
@@ -585,24 +586,29 @@
       box-shadow: var(--shadow);
       }
 
-    .modal-hero {
-      min-height: 2000px;
-      padding: 32px;
-      display: flex;
-      align-items: flex-end;
-      background:
-        linear-gradient(
-          0deg,
-          rgba(8, 23, 16, 0.94),
-          rgba(8, 23, 16, 0.08)
-        ),
-        radial-gradient(
-          circle at 75% 20%,
-          rgba(216, 238, 125, 0.42),
-          transparent 34%
-        ),
-        linear-gradient(145deg, #28543c, #12291f);
-    }
+   .modal-hero {
+  width: 100%;
+  height: 220px;
+  min-height: 220px;
+  max-height: 220px;
+  padding: 32px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  flex-shrink: 0;
+  background:
+    linear-gradient(
+      0deg,
+      rgba(8, 23, 16, 0.94),
+      rgba(8, 23, 16, 0.08)
+    ),
+    radial-gradient(
+      circle at 75% 20%,
+      rgba(216, 238, 125, 0.42),
+      transparent 34%
+    ),
+    linear-gradient(145deg, #28543c, #12291f);
+}
 
     .modal-hero h2 {
       margin: 7px 0 0;
@@ -973,7 +979,7 @@
     class="modal-backdrop"
     role="presentation"
   >
-   <article
+<article
   class="modal"
   role="dialog"
   aria-modal="true"
@@ -987,15 +993,15 @@
   >
     ×
   </button>
-     
-      <div class="modal-hero">
-        <div>
-          <p id="modalEyebrow" class="eyebrow">SideQuest</p>
-          <h2 id="modalTitle">Location</h2>
-        </div>
-      </div>
 
-      <div class="modal-content">
+  <div class="modal-hero">
+    <div class="modal-hero-text">
+      <p id="modalEyebrow" class="eyebrow">SideQuest</p>
+      <h2 id="modalTitle">Location</h2>
+    </div>
+  </div>
+
+  <div class="modal-content">
         <p id="modalDescription" class="body-copy"></p>
 
         <div class="modal-grid">
