@@ -202,8 +202,8 @@ window.SIDEQUESTS = [
     name: "Remic Rapids Park",
     category: "landmark",
     icon: "🪨",
-    lat: 45.4147,
-    lng: -75.7424,
+    lat: 45.41070,
+    lng: -75.74412,
 
     price: "Free",
     access: "Pathway and parking",
@@ -253,8 +253,8 @@ window.SIDEQUESTS = [
     name: "Westboro Beach",
     category: "waterfront",
     icon: "🏖️",
-    lat: 45.3967,
-    lng: -75.7569,
+    lat: 45.3950,
+    lng: -75.7614,
 
     price: "Free",
     access: "Beach and Capital Pathway",
