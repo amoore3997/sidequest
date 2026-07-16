@@ -2,15 +2,15 @@ window.SIDEQUESTS = [
   {
     id: 1,
     slug: "pink-lake-trail",
-    name: "Pink Lake Trail",
+    name: "Pink Lake Trail 35 Entrance",
 
     region: "Gatineau Park",
     category: "trail",
     pinType: "trailhead",
     icon: "🥾",
 
-    lat: 45.468643,
-    lng: -75.812193,
+    lat: 45.468561,
+    lng: -75.812219,
 
     coordinateRepresents:
       "Pink Lake Trail parking area and primary trailhead",
@@ -72,8 +72,8 @@ window.SIDEQUESTS = [
     pinType: "landmark",
     icon: "🏛️",
 
-    lat: 45.53725,
-    lng: -75.866111,
+    lat: 45.538425,
+    lng: -75.868006
 
     coordinateRepresents:
       "Carbide Willson Ruins complex",
