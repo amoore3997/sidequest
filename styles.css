@@ -581,6 +581,130 @@
       box-shadow: var(--shadow);
       }
 
+.location-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 3500;
+  display: none;
+  place-items: center;
+  padding: 18px;
+  background: rgba(4, 11, 8, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.location-backdrop.open {
+  display: grid;
+}
+
+.location-dialog {
+  position: relative;
+  width: min(470px, 100%);
+  padding: 30px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(131, 207, 137, 0.18),
+      transparent 36%
+    ),
+    #0e2118;
+  box-shadow: var(--shadow);
+}
+
+.location-dialog h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.location-description {
+  margin: 10px 0 20px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.location-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--cream);
+  font-size: 1.35rem;
+}
+
+.location-gps-button {
+  width: 100%;
+}
+
+.location-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: var(--muted);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+}
+
+.location-divider::before,
+.location-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.location-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #dfe8e2;
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
+.postal-code-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.location-error {
+  min-height: 20px;
+  margin: 8px 0 0;
+  color: #ffb4a8;
+  font-size: 0.78rem;
+}
+
+.location-privacy {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 520px) {
+  .location-dialog {
+    padding: 26px 20px 22px;
+  }
+
+  .postal-code-row {
+    grid-template-columns: 1fr;
+  }
+
+  .postal-code-row .primary-button {
+    width: 100%;
+  }
+}
+
    .modal-hero {
   width: 100%;
   height: 220px;
