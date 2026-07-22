@@ -76,9 +76,9 @@ if (!Array.isArray(sidequests)) {
       [searchCenter.lat, searchCenter.lng],
       {
         radius: Number(radiusInput.value) * 1000,
-        color: "#76c982",
-        weight: 1,
-        opacity: 0.7,
+        color: "#2f6f46",
+        weight: 2,
+        opacity: 0.95,
         fillColor: "#76c982",
         fillOpacity: 0.06,
         dashArray: "7 8"
