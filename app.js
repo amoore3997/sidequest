@@ -566,7 +566,127 @@ if (!Array.isArray(sidequests)) {
       renderQuests();
     }
 
+    function openLocationDialog() {
+  postalCodeError.textContent = "";
+  locationBackdrop.classList.add("open");
+
+  window.setTimeout(
+    () => postalCodeInput.focus(),
+    100
+  );
+}
+
+function closeLocationDialog() {
+  locationBackdrop.classList.remove("open");
+  postalCodeError.textContent = "";
+}
+
+function normalizeLocationQuery(value) {
+  return value
+    .trim()
+    .replace(/\s+/g, " ")
+    .toUpperCase();
+}
+
+async function searchPostalCode(
+  postalCode
+) {
+  const query =
+    normalizeLocationQuery(postalCode);
+
+  if (!query) {
+    postalCodeError.textContent =
+      "Enter a postal code or ZIP code.";
+
+    return;
+  }
+
+  postalCodeButton.disabled = true;
+  postalCodeButton.textContent =
+    "Searching…";
+
+  postalCodeError.textContent = "";
+
+  try {
+    const parameters =
+      new URLSearchParams({
+        q: query,
+        format: "jsonv2",
+        limit: "1",
+        countrycodes: "ca,us",
+        addressdetails: "1"
+      });
+
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?${parameters.toString()}`,
+      {
+        headers: {
+          Accept: "application/json"
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Location lookup failed: ${response.status}`
+      );
+    }
+
+    const results =
+      await response.json();
+
+    if (
+      !Array.isArray(results) ||
+      results.length === 0
+    ) {
+      postalCodeError.textContent =
+        "We could not find that postal code or ZIP code.";
+
+      return;
+    }
+
+    const latitude =
+      Number(results[0].lat);
+
+    const longitude =
+      Number(results[0].lon);
+
+    if (
+      !Number.isFinite(latitude) ||
+      !Number.isFinite(longitude)
+    ) {
+      throw new Error(
+        "The location service returned invalid coordinates."
+      );
+    }
+
+    setSearchCenter(
+      latitude,
+      longitude
+    );
+
+    closeLocationDialog();
+
+    showToast(
+      `Search centre updated to ${query}.`
+    );
+  } catch (error) {
+    console.error(
+      "Postal-code lookup failed:",
+      error
+    );
+
+    postalCodeError.textContent =
+      "Location lookup is temporarily unavailable. Try again shortly.";
+  } finally {
+    postalCodeButton.disabled = false;
+    postalCodeButton.textContent =
+      "Search";
+  }
+}
+
     function requestLocation() {
+      closeLocationDialog();
       if (!navigator.geolocation) {
         showToast(
           "Location services are not supported in this browser."
@@ -617,6 +737,40 @@ if (!Array.isArray(sidequests)) {
         );
     }
 
+    useGpsButton.addEventListener(
+  "click",
+  requestLocation
+);
+
+closeLocationDialogButton
+  .addEventListener(
+    "click",
+    closeLocationDialog
+  );
+
+postalCodeForm.addEventListener(
+  "submit",
+  event => {
+    event.preventDefault();
+
+    searchPostalCode(
+      postalCodeInput.value
+    );
+  }
+);
+
+locationBackdrop.addEventListener(
+  "click",
+  event => {
+    if (
+      event.target ===
+      locationBackdrop
+    ) {
+      closeLocationDialog();
+    }
+  }
+);
+
     radiusInput.addEventListener(
       "input",
       updateRadius
@@ -648,19 +802,19 @@ if (!Array.isArray(sidequests)) {
         );
       });
 
-    document
-      .getElementById("locateButton")
-      .addEventListener(
-        "click",
-        requestLocation
-      );
+   document
+  .getElementById("locateButton")
+  .addEventListener(
+    "click",
+    openLocationDialog
+  );
 
-    document
-      .getElementById("locateButtonTop")
-      .addEventListener(
-        "click",
-        requestLocation
-      );
+document
+  .getElementById("locateButtonTop")
+  .addEventListener(
+    "click",
+    openLocationDialog
+  );
 
     document
       .getElementById("resetViewButton")
@@ -705,6 +859,7 @@ if (!Array.isArray(sidequests)) {
       event => {
         if (event.key === "Escape") {
           closeModal();
+          closeLocationDialog();
         }
       }
     );
