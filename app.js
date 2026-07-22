@@ -72,6 +72,41 @@ if (!Array.isArray(sidequests)) {
     const toast =
       document.getElementById("toast");
 
+    const locationBackdrop =
+        document.getElementById(
+          "locationBackdrop"
+        );
+      
+    const closeLocationDialogButton =
+        document.getElementById(
+          "closeLocationDialog"
+        );
+      
+    const useGpsButton =
+        document.getElementById(
+          "useGpsButton"
+        );
+      
+    const postalCodeForm =
+        document.getElementById(
+          "postalCodeForm"
+        );
+      
+    const postalCodeInput =
+        document.getElementById(
+          "postalCodeInput"
+        );
+      
+    const postalCodeButton =
+        document.getElementById(
+          "postalCodeButton"
+        );
+      
+    const postalCodeError =
+        document.getElementById(
+          "postalCodeError"
+        );
+
     const radiusCircle = L.circle(
       [searchCenter.lat, searchCenter.lng],
       {
