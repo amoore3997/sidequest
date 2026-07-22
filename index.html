@@ -315,6 +315,90 @@
   </div>
 
   <div
+  id="locationBackdrop"
+  class="location-backdrop"
+  role="presentation"
+>
+  <section
+    class="location-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="locationDialogTitle"
+  >
+    <button
+      id="closeLocationDialog"
+      class="location-close"
+      type="button"
+      aria-label="Close location options"
+    >
+      ×
+    </button>
+
+    <p class="eyebrow">Choose your search centre</p>
+
+    <h2 id="locationDialogTitle">
+      Where should we explore?
+    </h2>
+
+    <p class="location-description">
+      Use your device location or search from a Canadian postal
+      code or US ZIP code.
+    </p>
+
+    <button
+      id="useGpsButton"
+      class="primary-button location-gps-button"
+      type="button"
+    >
+      ◎ Use device location
+    </button>
+
+    <div class="location-divider">
+      <span>or</span>
+    </div>
+
+    <form id="postalCodeForm">
+      <label
+        class="location-label"
+        for="postalCodeInput"
+      >
+        Postal code or ZIP code
+      </label>
+
+      <div class="postal-code-row">
+        <input
+          id="postalCodeInput"
+          class="search-box"
+          type="text"
+          placeholder="Example: K1A 0B1 or 10001"
+          autocomplete="postal-code"
+          maxlength="10"
+        />
+
+        <button
+          id="postalCodeButton"
+          class="primary-button"
+          type="submit"
+        >
+          Search
+        </button>
+      </div>
+
+      <p
+        id="postalCodeError"
+        class="location-error"
+        role="alert"
+      ></p>
+    </form>
+
+    <p class="location-privacy">
+      Your location is used to centre this map and is not saved
+      by this prototype.
+    </p>
+  </section>
+</div>
+
+  <div
     id="toast"
     class="toast"
     role="status"
