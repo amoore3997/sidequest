@@ -463,15 +463,26 @@ if (!Array.isArray(sidequests)) {
       });
     }
 
-    function updateRadius() {
+     function updateRadius() {
+      const radiusKm =
+        Number(radiusInput.value);
+    
       radiusValue.textContent =
-        `${radiusInput.value} km`;
-
+        formatDistance(radiusKm);
+    
       radiusCircle.setRadius(
-        Number(radiusInput.value) * 1000
+        radiusKm * 1000
       );
-
+    
       renderQuests();
+    }
+    
+    function formatDistance(kilometres) {
+      if (kilometres < 1) {
+        return `${Math.round(kilometres * 1000)} m`;
+      }
+    
+      return `${kilometres} km`;
     }
 
     function setSearchCenter(
