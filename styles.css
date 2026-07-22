@@ -326,30 +326,23 @@
 
     .chips {
       display: flex;
+      flex-wrap: wrap;
       gap: 8px;
       margin-top: 14px;
       padding-bottom: 2px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-
-    .chips::-webkit-scrollbar {
-      display: none;
+      overflow: visible;
     }
 
     .chip {
-      flex: 0 0 auto;
-      padding: 8px 11px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.04);
-      color: #d9e2dc;
-      font-size: 0.76rem;
-      font-weight: 700;
-      transition:
-        background 150ms ease,
-        color 150ms ease,
-        border-color 150ms ease;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 8px 11px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    color: #d9e2dc;
+    font-size: 0.76rem;
+    font-weight: 700;
     }
 
     .chip.active {
